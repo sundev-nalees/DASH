@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 
 public class PlayerControl : MonoBehaviour
@@ -10,13 +11,20 @@ public class PlayerControl : MonoBehaviour
 
     private float horizontal;
     private float vertical;
+    private PhotonView view;
 
-    
+    private void Start()
+    {
+        view = GetComponent<PhotonView>();
+    }
 
-    
     void Update()
     {
-        movementControl();
+        if (view.IsMine)
+        {
+            movementControl();
+        }
+        
     }
 
     private void movementControl()
