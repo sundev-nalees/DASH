@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class coinCollection : MonoBehaviour
 {
@@ -9,7 +10,13 @@ public class coinCollection : MonoBehaviour
     {
         if (other.GetComponent<PlayerControl>())
         {
-            Destroy(gameObject);
+            PhotonView photonView = gameObject.GetComponent<PhotonView>();
+
+            if (!photonView.IsMine)
+            {
+                photonView.TransferOwnership(other.GetComponent<PhotonView>().Owner);
+            }
+            PhotonNetwork.Destroy(gameObject);
         }
     }
 }
