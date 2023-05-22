@@ -155,8 +155,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1Score: 0
   player2Score: 0
-  player1: {fileID: 1101597733}
-  player2: {fileID: 1483910004}
+  player1ScoreText: {fileID: 1101597733}
+  player2ScoreText: {fileID: 1483910004}
 --- !u!4 &96034847
 Transform:
   m_ObjectHideFlags: 0

@@ -12,12 +12,28 @@ public class PlayerControl : MonoBehaviour
     private float horizontal;
     private float vertical;
     private PhotonView view;
-    private int playerId;
+    private int localPlayerId;
+    private int otherPlayerId;
+
     private int score = 1;
 
     private void Start()
     {
         view = GetComponent<PhotonView>();
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+        {
+            // Get the local player's ID
+            localPlayerId = PhotonNetwork.LocalPlayer.ActorNumber;
+
+            // Get the other player's ID
+            otherPlayerId = PhotonNetwork.LocalPlayer.GetNext().ActorNumber;
+
+            // Send a value from the local player to the other player
+            //photonView.RPC("SendValue", RpcTarget.Others, localPlayerId, otherPlayerId, 42);
+            Debug.Log("local player Id" + localPlayerId);
+            Debug.Log("otherplayer Id" + otherPlayerId);
+
+        }
     }
 
     void Update()
@@ -41,17 +57,8 @@ public class PlayerControl : MonoBehaviour
     {
         if (other.GetComponent<coinCollection>() == true)
         {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                UIManager.instance.UpdateScore(1,score);
-            }
-            else
-            {
-                UIManager.instance.UpdateScore(2, score);
-            }
-           /* ExitGames.Client.Photon.Hashtable playerProperties = PhotonNetwork.LocalPlayer.CustomProperties;
-            playerProperties["score"] = (int)playerProperties["score"] + 1;
-            PhotonNetwork.SetPlayerCustomProperties(playerProperties);*/
+            UIManager.instance.IncreaseScore();
+           
         }
         
     }
